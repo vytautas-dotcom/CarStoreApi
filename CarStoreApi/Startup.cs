@@ -15,7 +15,9 @@ namespace CarStoreApi
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<SeedData>();
             services.AddSingleton<IStoreRepository, StoreRepository>();
+            services.AddSingleton<ICarRepository, CarRepository>();
             services.AddControllers()
                 .AddNewtonsoftJson();
 

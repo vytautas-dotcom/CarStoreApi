@@ -7,19 +7,14 @@ namespace CarStoreApi.Models
 {
     public class StoreRepository : IStoreRepository
     {
-        private readonly Dictionary<Guid, Store> stores;
-        readonly Factory factory = new();
-        public StoreRepository()
+        private readonly SeedData _data;
+        public StoreRepository(SeedData data)
         {
-            stores = new Dictionary<Guid, Store>();
-            foreach (var store in factory.GenerateStoreList())
-            {
-                AddStore(store);
-            }
+            _data = data;
         }
-        public Store this[Guid id] => stores.ContainsKey(id) ? stores[id] : null;
+        public Store this[Guid id] => _data.stores.ContainsKey(id) ? _data.stores[id] : null;
 
-        public IEnumerable<Store> Stores => stores.Values;
+        public IEnumerable<Store> Stores => _data.stores.Values;
 
         public Store AddStore(Store store)
         {
@@ -29,11 +24,11 @@ namespace CarStoreApi.Models
                 store.Id = key;
                 //store.CarList = null;
             }
-            stores[store.Id] = store;
+            _data.stores[store.Id] = store;
             return store;
         }
 
-        public void DeleteStore(Guid id) => stores.Remove(id);
+        public void DeleteStore(Guid id) => _data.stores.Remove(id);
 
         public Store UpdateStore(Store store) => AddStore(store);
     }
