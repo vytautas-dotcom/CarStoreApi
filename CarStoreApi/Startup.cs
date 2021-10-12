@@ -1,3 +1,4 @@
+using CarStoreApi.Filters;
 using CarStoreApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +19,10 @@ namespace CarStoreApi
             services.AddSingleton<SeedData>();
             services.AddSingleton<IStoreRepository, StoreRepository>();
             services.AddSingleton<ICarRepository, CarRepository>();
-            services.AddControllers()
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<JsonExceprionFilter>();
+            })
                 .AddNewtonsoftJson();
 
             services.AddCors();
