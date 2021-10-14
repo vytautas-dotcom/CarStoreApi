@@ -9,7 +9,7 @@ namespace CarStoreApi.Models
     {
         IEnumerable<Store> Stores { get; }
         Store this[Guid id] { get; }
-        Store AddStore(Store store);
+        Store AddStore(Store store, bool modified = false);
         Store UpdateStore(Store store);
         void DeleteStore(Guid id);
     }
