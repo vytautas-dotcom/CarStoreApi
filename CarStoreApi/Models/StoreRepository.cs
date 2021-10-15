@@ -30,13 +30,17 @@ namespace CarStoreApi.Models
             }
             _data.stores[store.Id] = store;
 
-            if (carList.Count != 0 && !modified)
+            if (!modified)
             {
-                foreach (var car in carList)
+                if (carList.Count != 0)
                 {
-                    _carRepository.AddCar(store.Id, car);
+                    foreach (var car in carList)
+                    {
+                        _carRepository.AddCar(store.Id, car);
+                    }
                 }
             }
+            
             return store;
         }
 
@@ -44,7 +48,8 @@ namespace CarStoreApi.Models
 
         public Store UpdateStore(Store store)
         {
-            List<Car> carListFromData = this[store.Id].CarList;
+            List<Car> carListFromData = new List<Car>();
+            carListFromData = _data.stores[store.Id].CarList;
             if (store.CarList.Count == 0)
             {
                 Store updatedStore0 = new Store
@@ -54,7 +59,7 @@ namespace CarStoreApi.Models
                     City = store.City,
                     CarList = carListFromData
                 };
-                return AddStore(updatedStore0);
+                return AddStore(updatedStore0, true);
             }
             else
             {
