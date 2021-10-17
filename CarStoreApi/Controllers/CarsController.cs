@@ -43,9 +43,13 @@ namespace CarStoreApi.Controllers
         [HttpPost]
         public ActionResult<Car> AddCarToStore([FromBody] Car car, Guid storeId)
         {
-            if (_carRepository.AddCar(storeId, car) == null) return BadRequest("Bad Id");
+            Guid id = _carRepository.AddCar(storeId, car);
 
-            return Ok(_carRepository.AddCar(storeId, car));
+            if (id == Guid.Empty) return BadRequest("Bad Id");
+
+            //return Ok(_carRepository.AddCar(storeId, car));
+
+            return _carRepository.CarById(storeId, id);
         }
 
         //PUT /stores/{storeId}/cars

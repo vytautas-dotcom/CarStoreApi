@@ -28,9 +28,9 @@ namespace CarStoreApi.Models
             return _data.stores[storeId].CarList;
         }
 
-        public Car AddCar(Guid storeId, Car car)
+        public Guid AddCar(Guid storeId, Car car)
         {
-            if (!_data.stores.ContainsKey(storeId)) return null;
+            if (!_data.stores.ContainsKey(storeId)) return Guid.Empty;
 
             Guid id = Guid.NewGuid();
             _data.stores[storeId].CarList.Add(new Car 
@@ -42,7 +42,7 @@ namespace CarStoreApi.Models
                 Remark = car.Remark,
                 IsInStore = car.IsInStore
             });
-            return _data.stores[storeId].CarList.FirstOrDefault(car => car.Id == id);
+            return id;
         }
 
         public bool DeleteCar(Guid storeId, Guid carId)
